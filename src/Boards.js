@@ -45,9 +45,9 @@ export class Boards extends Component {
       ;
   };
   render() {
-    console.log(this.state.idBoards);
+    // console.log(this.state.idBoards);
     const id = this.state.idBoards[0];
-    console.log(typeof id);
+    //console.log(typeof id);
     return (
       <div className="d-flex justify-content-start mt-3 ml-3 flex-wrap">
         {this.state.idBoards.map(idBoard => {
