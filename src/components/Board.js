@@ -24,7 +24,7 @@ export class Board extends Component {
     render() {
        // console.log(this.state.shortUrl)
         return (
-            <div className="card m-3" style={{width:"11rem",backgroundColor:"lightgrey",color:"white"}}>
+            <div className="card m-3" style={{width:"11rem",backgroundColor:"blue",color:"white"}}>
               <a href={"/board/"+this.state.idBoard} style={{textDecoration:"none",color:"inherit"}}> 
             <div className="card-body">    
             <h5 className="card-title">{this.state.name}</h5> 

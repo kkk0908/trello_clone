@@ -4,6 +4,7 @@ const axios=require('axios')
 export class Lists extends Component {
     state = {
         lists: [],
+        
         idBoard:this.props.match.params.id,
         key: "7a9abac84727db420e2e4d718512af14",
         token: "e9ac68a0086b1b409ad811e3631e891b80ee8aaa199d000b589e6d8ea3c7ebcb"
@@ -11,38 +12,51 @@ export class Lists extends Component {
     componentDidMount(){
       axios.get(`https://api.trello.com/1/boards/${this.state.idBoard}/lists?cards=all&card_fields=all&filter=open&fields=all&key=${this.state.key}&token=${this.state.token}`)
       .then((res)=>{
-         // console.log(res.data)
+          console.log(res.data)
           this.setState({lists:res.data})
 
 
     })
     }
     createList=()=>{
+        
       var name1=prompt("List name")
        axios.post(`https://api.trello.com/1/lists?name=${name1}&idBoard=${this.state.idBoard}&key=${this.state.key}&token=${this.state.token}`)
        .then(res=>{
-           console.log(res.data)
-           console.log(this.state.lists)
+        //    console.log(res.data)
+        //    console.log(this.state.lists)
            
            this.setState({lists:[...this.state.lists,res.data]},()=>{
                console.log(this.state.lists)
            })
-        //    var lists=[...this.state.lists]
-        //    lists.push(res.data)
         
-        //    this.setState({lists:lists})
 
-    })
+   })
     }
-    
+    removeList=(a)=>{
+        console.log(a.list.id)
+        axios.put(`https://api.trello.com/1/lists/${a.list.id}/closed?value=true&key=${this.state.key}&token=${this.state.token}`)
+        .then(res=>{
+            console.log(res.data)
+            var lists=[...this.state.lists]
+            
+            lists=lists.filter((list)=>{
+                return list.id !== res.data.id
+            })
+            this.setState({lists})
+            //console.log(lists)
+          })
+}
+
+
     render() {
-        //console.log(this.state.lists);
+        console.log(this.state.cards);
         return (
             <div style={{display:"flex",minWidth:"100%", minHeight:"10px", overflowX:"auto", overflowY:"auto"}}>
                 {/* <h1>{this.props.match.params.id}</h1> */}
                 {
                     this.state.lists.map((list)=>{
-                        return <List list={list}/>
+                        return <List list={list}  keys={this.state.key} token={this.state.token} removeList={this.removeList}/>
                     })
                 }
                 <a href="#" style={{color:"inherit"}}>
